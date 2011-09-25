@@ -10,7 +10,6 @@ ko.bindingHandlers.notification = {
 			options = typeof rawValue == 'object' ? rawValue : {message: rawValue},
 			message = ko.utils.unwrapObservable(options.message),
 			duration = ko.utils.unwrapObservable(options.duration) || 5000, //5 seconds is default fade out
-			callback = options.callback || function() {}, //default is a noop function
 			fadeoutDuration = ko.utils.unwrapObservable(options.fadeoutDuration) || 200, //default is 200 ms
 			hide = ko.utils.unwrapObservable(options.hide) || true, //default is to hide it
 			fade = ko.utils.unwrapObservable(options.fade) || true, //default is to fade it out in presence of jquery
@@ -50,8 +49,5 @@ ko.bindingHandlers.notification = {
 					element.style.display = 'none';
 			}, duration);
 		}
-		
-		//run the callback
-		callback();
 	}
 };
