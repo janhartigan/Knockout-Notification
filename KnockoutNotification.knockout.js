@@ -38,13 +38,14 @@ ko.bindingHandlers.notification = {
 		if (hide) {
 			//run a timeout to make it disappear
 			element.notificationTimer = setTimeout(function() {
-				
 				//if jQuery is there, run the fadeOut, otherwise do old-timey js
 				if (jQueryExists) {
 					if (fade)
-						jQuery(element).fadeOut(fadeoutDuration);
-					else
+						jQuery(element).fadeOut(fadeoutDuration, function() {options.message('')});
+					else {
 						jQuery(element).hide();
+						options.message('');
+					}
 				} else
 					element.style.display = 'none';
 			}, duration);
