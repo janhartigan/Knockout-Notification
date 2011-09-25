@@ -7,29 +7,24 @@
 </head>
 <body>
 	
-	<span id='test' data-bind="notification: {message: message, duration: 1000 }"></span><br/>
-	<span id='test2' data-bind="notification: message2"></span>
+	<span data-bind="notification: {message: message1, duration: 1000, hide: keepFirstAlive }"></span><br/>
+	<span data-bind="notification: {message: message2, duration: 2000, hide: false }"></span><br/>
+	<span data-bind="notification: {message: message1, duration: 3000, fade: false }"></span><br/>
+	<span data-bind="notification: {message: message2, duration: 4000, fadeoutDuration: 1100 }"></span><br/>
+	<span data-bind="notification: message1"></span><br/>
+	<input type="button" data-bind="click: function() {message1(''); message1('test1'); message2(''); message2('test2')}" value="reset" />
+	<input type="button" 
+		data-bind="value: keepFirstAlive() ? 'Don\'t hide first message' : 'Hide first message', click: function() {keepFirstAlive() ? keepFirstAlive(false) : keepFirstAlive(true)}" 
+		value="reset" />
 	
 	<script type="text/javascript">
-		var viewModel;
-		
-		if (typeof jQuery != 'undefined') {
-			$(function() {
-				viewModel = {
-					message: ko.observable('test'),
-					message2: ko.observable('test4')
-				};
-				
-				ko.applyBindings(viewModel);
-			});
-		} else {
-			viewModel = {
-				message: ko.observable('test'),
-				message2: ko.observable('test4')
+		var viewModel = {
+				message1: ko.observable('test1'),
+				message2: ko.observable('test2'),
+				keepFirstAlive: ko.observable(false)
 			};
 			
-			ko.applyBindings(viewModel);
-		}
+		ko.applyBindings(viewModel);
 	</script>
 </body>
 </html>
