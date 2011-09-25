@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+	<script type="text/javascript" src="http://cloud.github.com/downloads/SteveSanderson/knockout/knockout-1.3.0beta.js"></script>
+	<script type="text/javascript" src="KnockoutNotification.knockout.js"></script>
+</head>
+<body>
+	
+	<span id='test' data-bind="notification: {message: message, duration: 1000 }"></span><br/>
+	<span id='test2' data-bind="notification: message2"></span>
+	
+	<script type="text/javascript">
+		var viewModel;
+		
+		if (typeof jQuery != 'undefined') {
+			$(function() {
+				viewModel = {
+					message: ko.observable('test'),
+					message2: ko.observable('test4')
+				};
+				
+				ko.applyBindings(viewModel);
+			});
+		} else {
+			viewModel = {
+				message: ko.observable('test'),
+				message2: ko.observable('test4')
+			};
+			
+			ko.applyBindings(viewModel);
+		}
+	</script>
+</body>
+</html>
