@@ -9,10 +9,10 @@ ko.bindingHandlers.notification = {
 			//notification can be passed an object with properties 'message', 'duration', and 'callback', or it can be given just a string
 			options = typeof rawValue == 'object' ? rawValue : {message: rawValue},
 			message = ko.utils.unwrapObservable(options.message),
-			duration = ko.utils.unwrapObservable(options.duration) || 5000, //5 seconds is default fade out
-			fadeoutDuration = ko.utils.unwrapObservable(options.fadeoutDuration) || 200, //default is 200 ms
-			hide = ko.utils.unwrapObservable(options.hide) || true, //default is to hide it
-			fade = ko.utils.unwrapObservable(options.fade) || true, //default is to fade it out in presence of jquery
+			duration = options.duration !== undefined ? ko.utils.unwrapObservable(options.duration) : 5000, //5 seconds is default fade out
+			fadeoutDuration = options.fadeoutDuration !== undefined ? ko.utils.unwrapObservable(options.fadeoutDuration) : 200, //default is 200 ms
+			hide = options.hide !== undefined ? ko.utils.unwrapObservable(options.hide) : true, //default is to hide it
+			fade = options.fade !== undefined ? ko.utils.unwrapObservable(options.fade) : true, //default is to fade it out in presence of jquery
 			jQueryExists = typeof jQuery != 'undefined';
 		
 		//set the element's text to the value of the message
