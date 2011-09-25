@@ -4,14 +4,6 @@
  * License: dual (MIT, GPL)
  */
 ko.bindingHandlers.notification = {
-	init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
-		var rawValue = valueAccessor(),
-			//notification can be passed an object with properties 'message', 'duration', and 'callback', or it can be given just a string
-			options = typeof rawValue == 'object' ? rawValue : {message: rawValue};
-		
-		//init the timer property
-		options.message.notificationTimer = 0;
-	},
 	update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
 		var rawValue = valueAccessor(),
 			//notification can be passed an object with properties 'message', 'duration', and 'callback', or it can be given just a string
@@ -30,13 +22,13 @@ ko.bindingHandlers.notification = {
 		typeof element.innerText == "string" ? element.innerText = message 
 											: element.textContent = message;
 		
+		//clear any outstanding timeouts
+		clearTimeout(element.notificationTimer);
+		
 		if (message == '') {
 			element.style.display = 'none';
 			return;
 		}
-		
-		//clear any outstanding timeouts
-		clearTimeout(options.message.notificationTimer);
 		
 		//if there are any animations going on, stop them and show the element. otherwise just show the element
 		if (jQueryExists)
@@ -46,7 +38,7 @@ ko.bindingHandlers.notification = {
 		
 		if (hide) {
 			//run a timeout to make it disappear
-			options.message.notificationTimer = setTimeout(function() {
+			element.notificationTimer = setTimeout(function() {
 				
 				//if jQuery is there, run the fadeOut, otherwise do old-timey js
 				if (jQueryExists) {
