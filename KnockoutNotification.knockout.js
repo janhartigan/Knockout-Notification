@@ -11,7 +11,6 @@ ko.bindingHandlers.notification = {
 		
 		//init the timer property
 		options.message.notificationTimer = 0;
-		options.message.lastMessage = options.message();
 	},
 	update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
 		var rawValue = valueAccessor(),
@@ -22,6 +21,7 @@ ko.bindingHandlers.notification = {
 			callback = options.callback || function() {}, //default is a noop function
 			fadeoutDuration = ko.utils.unwrapObservable(options.fadeoutDuration) || 200, //default is 200 ms
 			hide = ko.utils.unwrapObservable(options.hide) || true, //default is to hide it
+			fade = ko.utils.unwrapObservable(options.fade) || true, //default is to fade it out in presence of jquery
 			jQueryExists = typeof jQuery != 'undefined';
 		
 		//set the element's text to the value of the message
@@ -30,8 +30,10 @@ ko.bindingHandlers.notification = {
 		typeof element.innerText == "string" ? element.innerText = message 
 											: element.textContent = message;
 		
-		if (message == '')
+		if (message == '') {
+			element.style.display = 'none';
 			return;
+		}
 		
 		//clear any outstanding timeouts
 		clearTimeout(options.message.notificationTimer);
@@ -45,18 +47,15 @@ ko.bindingHandlers.notification = {
 		if (hide) {
 			//run a timeout to make it disappear
 			options.message.notificationTimer = setTimeout(function() {
-				//set the last message property
-				options.lastMessage = options.message();
 				
+				//if jQuery is there, run the fadeOut, otherwise do old-timey js
 				if (jQueryExists) {
-					//if jQuery is there, run the fadeOut
-					jQuery(element).fadeOut(fadeoutDuration, function() {
-						options.message('');
-					});
-				} else {
+					if (fade)
+						jQuery(element).fadeOut(fadeoutDuration);
+					else
+						jQuery(element).hide();
+				} else
 					element.style.display = 'none';
-					options.message('');
-				}
 			}, duration);
 		}
 		
