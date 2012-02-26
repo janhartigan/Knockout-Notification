@@ -4,6 +4,8 @@ An extension to KnockoutJS that lets you manage form messages and notifications 
 
 ## examples
 
+<em>For a more complete set of examples, check out notification.html in the source</em>
+
 Consider the following example:
 
 <pre>
