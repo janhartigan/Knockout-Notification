@@ -15,27 +15,27 @@ ko.bindingHandlers.notification = {
 			fade = options.fade !== undefined ? ko.utils.unwrapObservable(options.fade) : true, //default is to fade it out in presence of jquery
             callback = options.callback !== undefined ? ko.utils.unwrapObservable(options.callback) : function() {},
 			jQueryExists = typeof jQuery != 'undefined';
-		
+
 		//set the element's text to the value of the message
 		if (message === null || message === undefined)
 			message = "";
-		typeof element.innerText == "string" ? element.innerText = message 
-											: element.textContent = message;
-		
+
+		element.innerHTML = message;
+
 		//clear any outstanding timeouts
 		clearTimeout(element.notificationTimer);
-		
+
 		if (message == '') {
 			element.style.display = 'none';
 			return;
 		}
-		
+
 		//if there are any animations going on, stop them and show the element. otherwise just show the element
 		if (jQueryExists)
 			jQuery(element).stop(true, true).show();
 		else
 			element.style.display = '';
-		
+
 		if (hide) {
 			//run a timeout to make it disappear
 			element.notificationTimer = setTimeout(function() {
